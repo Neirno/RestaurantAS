@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "864306135919",
+    "project_id": "restaurantas-f8a7b",
+    "storage_bucket": "restaurantas-f8a7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864306135919:android:8018c489f9dc7126181e9a",
+        "android_client_info": {
+          "package_name": "com.neirno.restaurantas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi1wUCWZtqztXwMc-n8a7hBLhQ2FTRGTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
