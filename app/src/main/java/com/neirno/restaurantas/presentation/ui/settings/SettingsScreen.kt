@@ -200,10 +200,7 @@ private fun handleSideEffect(
         }
         is SettingsSideEffect.NavigateToLoginScreen -> {
             navController.navigate("auth_screen") {
-                popUpTo(navController.graph.startDestinationId) {
-                    inclusive = true
-                }
-                // Удаляем возможность возвращения на предыдущий экран
+                popUpTo(0) { inclusive = true }
                 launchSingleTop = true
             }
         }

@@ -56,7 +56,11 @@ fun CookScreen(
                 )
             }
             is UiStatus.Error -> {
-                ErrorPage { onEvent(CookEvent.LoadOrders) }
+                ErrorPage(
+                    modifier = modifier
+                        .padding(scaffoldPadding)
+                        .fillMaxSize()
+                ) { onEvent(CookEvent.LoadOrders) }
             }
             is UiStatus.Loading -> {
                 Loading()
