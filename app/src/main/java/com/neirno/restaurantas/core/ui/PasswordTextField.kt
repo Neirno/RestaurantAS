@@ -2,6 +2,7 @@ package com.neirno.restaurantas.core.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -16,21 +17,21 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PasswordTextField(
     password: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onDone: () -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp) ,
+            .padding(bottom = 16.dp),
         shape = MaterialTheme.shapes.extraLarge,
         value = password,
         singleLine = true,
-        onValueChange = { newPassword ->
-            onValueChange(newPassword)
-        },
+        onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Next
+            imeAction = ImeAction.Done
         ),
+        keyboardActions = KeyboardActions(onDone = { onDone() })
     )
 }

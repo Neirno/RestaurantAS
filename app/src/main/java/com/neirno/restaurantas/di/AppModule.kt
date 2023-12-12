@@ -1,6 +1,7 @@
 package com.neirno.restaurantas.di
 
 import OrdersRepositoryImpl
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -14,12 +15,19 @@ import com.neirno.restaurantas.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideApplicationContext(@ApplicationContext appContext: Context): Context {
+        return appContext
+    }
 
     @Provides
     @Singleton

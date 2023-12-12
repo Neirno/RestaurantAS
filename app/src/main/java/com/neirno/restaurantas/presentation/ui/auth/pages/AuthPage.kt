@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +35,8 @@ fun AuthPage(
     singIn: (String, String) -> Unit,
     //googleSignIn
 ) {
+    val scrollState = rememberScrollState()
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -40,7 +44,8 @@ fun AuthPage(
     Column (
         modifier = modifier
             .padding(48.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -50,9 +55,13 @@ fun AuthPage(
             email = newEmail
         }
 
-        PasswordTextField(password = password) { newPassword ->
-            password = newPassword
-        }
+        PasswordTextField(
+            password = password,
+            onDone =  { singIn(email, password) },
+            onValueChange = { newPassword ->
+                password = newPassword
+            }
+        )
         Button(
             modifier = Modifier
                 .fillMaxWidth(0.5f)

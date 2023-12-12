@@ -2,11 +2,13 @@ package com.neirno.restaurantas.presentation.ui.waiter
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.neirno.restaurantas.core.constans.UserType
 import com.neirno.restaurantas.core.util.Response
 import com.neirno.restaurantas.core.util.UiStatus
 import com.neirno.restaurantas.domain.model.OrderModel
 import com.neirno.restaurantas.domain.model.TableModel
 import com.neirno.restaurantas.domain.use_case.order.GetOrdersUseCase
+import com.neirno.restaurantas.domain.use_case.services.StartOrderStatusServiceUseCase
 import com.neirno.restaurantas.domain.use_case.table.GetTablesUseCase
 import com.neirno.restaurantas.domain.use_case.table.ServiceTableUseCase
 import com.neirno.restaurantas.domain.use_case.user.GetUserStatusUseCase
@@ -14,6 +16,8 @@ import com.neirno.restaurantas.domain.use_case.user.GetUserTypeUseCase
 import com.neirno.restaurantas.domain.use_case.user.GetUserUIdUseCase
 import com.neirno.restaurantas.presentation.ui.admin.AdminSideEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -29,12 +33,14 @@ class WaiterViewModel @Inject constructor(
     private val getUserTypeUseCase: GetUserTypeUseCase,
     private val getUserUIdUseCase: GetUserUIdUseCase,
     private val serviceTableUseCase: ServiceTableUseCase,
+    private val startOrderStatusServiceUseCase: StartOrderStatusServiceUseCase
 ): ViewModel(), ContainerHost<WaiterState, WaiterSideEffect> {
 
     override val container: Container<WaiterState, WaiterSideEffect> = container(WaiterState())
 
     init {
         getUserStatus()
+        getUserType()
     }
 
     fun onEvent(event: WaiterEvent) {
@@ -47,12 +53,26 @@ class WaiterViewModel @Inject constructor(
             }
             is WaiterEvent.OpenOrder -> {
                 openOrders(event.tableId, event.tableNumber)
+               /* intent {
+                    startOrderStatusServiceUseCase(state.userType.type, state.userId)
+                }*/
             }
             is WaiterEvent.ServiceTable -> {
                 serviceTable(event.tableId)
             }
             WaiterEvent.GoToSettings -> {
                 intent { postSideEffect(WaiterSideEffect.NavigateToSettings) }
+            }
+        }
+    }
+
+    private fun getUserType() = intent {
+        getUserTypeUseCase().collect { response ->
+            when (response) {
+                is Response.Success -> {
+                    reduce { state.copy(userType = UserType.fromString(response.data)) }
+                }
+                else -> {}
             }
         }
     }
@@ -72,20 +92,12 @@ class WaiterViewModel @Inject constructor(
     }
 
     private fun openOrders(tableId: String, tableNumber: String) = intent {
-        getUserTypeUseCase().collect { response ->
-            when (response) {
-                is Response.Success -> {
-                    Log.i("WAITER VM", response.data)
-                    postSideEffect(WaiterSideEffect.NavigateToOrder(
-                        tableId = tableId,
-                        userType = response.data,
-                        tableNumber = tableNumber,
-                    ))
-                }
-                else -> {}
-            }
+        postSideEffect(WaiterSideEffect.NavigateToOrder(
+            tableId = tableId,
+            userType = state.userType.type,
+            tableNumber = tableNumber,
+        ))
 
-        }
     }
 
     private fun loadTables() = intent {
@@ -160,7 +172,8 @@ data class WaiterState (
     val userId: String = "",
     val freeTables: List<TableModel> = emptyList(),
     val myTables: List<TableModel> = emptyList(),
-    val orders: List<OrderModel> = emptyList()
+    val orders: List<OrderModel> = emptyList(),
+    val userType: UserType = UserType.UNKNOWN
 )
 
 sealed class WaiterSideEffect {
