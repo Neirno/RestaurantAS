@@ -26,12 +26,18 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    fun createNotification(content: String): Notification {
-        return NotificationCompat.Builder(context, Constants.CHANNEL_ID)
+    fun createNotification(content: String, groupId: Int? = null): Notification {
+        val builder = NotificationCompat.Builder(context, Constants.CHANNEL_ID)
             .setContentTitle("Order Status Update")
             .setContentText(content)
             .setSmallIcon(R.drawable.ic_logo)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
+
+        groupId?.let {
+            builder.setGroup(Constants.NOTIFICATION_GROUP_KEY + it)
+        }
+
+        return builder.build()
     }
+
 }

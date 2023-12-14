@@ -30,7 +30,6 @@ import javax.inject.Inject
 class WaiterViewModel @Inject constructor(
     private val getTablesUseCase: GetTablesUseCase,
     private val getUserStatusUseCase: GetUserStatusUseCase,
-    private val getUserTypeUseCase: GetUserTypeUseCase,
     private val getUserUIdUseCase: GetUserUIdUseCase,
     private val serviceTableUseCase: ServiceTableUseCase,
     private val startOrderStatusServiceUseCase: StartOrderStatusServiceUseCase
@@ -40,7 +39,7 @@ class WaiterViewModel @Inject constructor(
 
     init {
         getUserStatus()
-        getUserType()
+        intent { reduce { state.copy(userType = UserType.WAITER) } }
     }
 
     fun onEvent(event: WaiterEvent) {
@@ -53,26 +52,15 @@ class WaiterViewModel @Inject constructor(
             }
             is WaiterEvent.OpenOrder -> {
                 openOrders(event.tableId, event.tableNumber)
-               /* intent {
-                    startOrderStatusServiceUseCase(state.userType.type, state.userId)
-                }*/
+                intent {
+                    startOrderStatusServiceUseCase(UserType.WAITER.type, state.userId)
+                }
             }
             is WaiterEvent.ServiceTable -> {
                 serviceTable(event.tableId)
             }
             WaiterEvent.GoToSettings -> {
                 intent { postSideEffect(WaiterSideEffect.NavigateToSettings) }
-            }
-        }
-    }
-
-    private fun getUserType() = intent {
-        getUserTypeUseCase().collect { response ->
-            when (response) {
-                is Response.Success -> {
-                    reduce { state.copy(userType = UserType.fromString(response.data)) }
-                }
-                else -> {}
             }
         }
     }
