@@ -34,14 +34,14 @@ RestaurantAS - это проект автоматизации ресторана
 
 | Экран               | Скриншот |
 |---------------------|----------|
-| Аутентификация      | <img src="/screenshots/auth.jpg" width="100"> |
-| Повар               | <img src="/screenshots/cook.jpg" width="100"> |
-| Официант            | <img src="/screenshots/waiter.jpg" width="100"> |
-| Администратор       | <img src="/screenshots/admin.jpg" width="100"> |
-| Настройки           | <img src="/screenshots/settings.jpg" width="100"> |
-| Хостесс             | <img src="/screenshots/hostess.jpg" width="100"> |
-| Список заказов      | <img src="/screenshots/orderlist.jpg" width="100"> |
-| OrderDetailsScreen  | <img src="/screenshots/orderdetails.jpg" width="100"> |
+| Аутентификация      | <img src="/screenshots/auth.jpg" width="250"> |
+| Повар               | <img src="/screenshots/cook.jpg" width="250"> |
+| Официант            | <img src="/screenshots/waiter.jpg" width="250"> |
+| Администратор       | <img src="/screenshots/admin.jpg" width="250"> |
+| Настройки           | <img src="/screenshots/settings.jpg" width="250"> |
+| Хостесс             | <img src="/screenshots/hostess.jpg" width="250"> |
+| Список заказов      | <img src="/screenshots/orderlist.jpg" width="250"> |
+| OrderDetailsScreen  | <img src="/screenshots/orderdetails.jpg" width="250"> |
 | ...                 | ...      |
 
 
