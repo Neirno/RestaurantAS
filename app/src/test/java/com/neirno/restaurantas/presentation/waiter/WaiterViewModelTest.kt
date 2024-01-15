@@ -2,6 +2,7 @@ package com.neirno.restaurantas.presentation.waiter
 
 import com.neirno.restaurantas.core.util.Response
 import com.neirno.restaurantas.domain.model.TableModel
+import com.neirno.restaurantas.domain.use_case.services.StartOrderStatusServiceUseCase
 import com.neirno.restaurantas.domain.use_case.table.GetTablesUseCase
 import com.neirno.restaurantas.domain.use_case.table.ServiceTableUseCase
 import com.neirno.restaurantas.domain.use_case.user.GetUserStatusUseCase
@@ -30,9 +31,9 @@ class WaiterViewModelTest {
     private lateinit var viewModel: WaiterViewModel
     private val getTablesUseCase: GetTablesUseCase = mockk()
     private val getUserStatusUseCase: GetUserStatusUseCase = mockk()
-    private val getUserTypeUseCase: GetUserTypeUseCase = mockk()
     private val getUserUIdUseCase: GetUserUIdUseCase = mockk()
     private val serviceTableUseCase: ServiceTableUseCase = mockk()
+    private val startOrderStatusServiceUseCase: StartOrderStatusServiceUseCase = mockk()
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
 
     private val userUId = "testUserId"
@@ -58,9 +59,9 @@ class WaiterViewModelTest {
         viewModel = WaiterViewModel(
             getTablesUseCase,
             getUserStatusUseCase,
-            getUserTypeUseCase,
             getUserUIdUseCase,
-            serviceTableUseCase
+            serviceTableUseCase,
+            startOrderStatusServiceUseCase
         )
     }
 
